@@ -1,0 +1,49 @@
+{
+  "dataset_info": {
+    "source": "UCI Machine Learning Repository / Kaggle",
+    "total_samples": 50,
+    "total_features": 13,
+    "description": "Boston Housing dataset - predict median home values"
+  },
+  "model_metrics": {
+    "algorithm": "Linear Regression",
+    "accuracy_r_squared": 0.6612233323471719,
+    "rmse": 3.5815167095745317,
+    "mae": 2.7971954937628714,
+    "training_time": "0s"
+  },
+  "feature_analysis": {
+    "selected_feature": "RM",
+    "correlation_with_target": 0.8131564009138418,
+    "feature_mean": 6.22314957142857,
+    "feature_std_dev": 0.48554380684564724,
+    "why_selected": "Selected RM because it has highest correlation (0.813) with target"
+  },
+  "sample_predictions": [
+    {
+      "input_feature_value": 3.111574785714285,
+      "predicted_price": -8.573354167720154,
+      "confidence_level": "High"
+    },
+    {
+      "input_feature_value": 6.22314957142857,
+      "predicted_price": 23.49200769230768,
+      "confidence_level": "High"
+    },
+    {
+      "input_feature_value": 9.334724357142854,
+      "predicted_price": 55.5573695523355,
+      "confidence_level": "Medium"
+    }
+  ],
+  "code_flow_steps": [
+    "1. Load Boston Housing dataset from UCI/Kaggle",
+    "2. Analyze all 13 features and calculate correlations",
+    "3. Select feature with highest correlation to target",
+    "4. Train Linear Regression model using selected feature",
+    "5. Calculate performance metrics (R², RMSE, MAE)",
+    "6. Create visualizations (scatter plot + regression line)",
+    "7. Generate comprehensive analysis report",
+    "8. Save model in JSON format for future use"
+  ]
+}
