@@ -1,0 +1,561 @@
+# Updated and expanded Julia cheat sheet with line-by-line humanized comments and extended viva questions
+julia_cheat_sheet = """
+===========================================
+PFAI Final Lab Cheat Sheet - Julia Language
+===========================================
+Author: Sohail Aslam
+
+----------------------------
+🔧 Julia Installation & Setup
+----------------------------
+1. Download Julia from: https://julialang.org/downloads/
+2. Add Julia to system PATH (important for terminal use).
+3. To verify installation:
+   Open terminal and run:
+   > julia --version
+
+----------------------------
+🧰 VS Code Setup
+----------------------------
+1. Download VS Code: https://code.visualstudio.com
+2. Install these Extensions:
+   - Julia Language Support
+   - Code Runner (to run single code blocks)
+
+----------------------------
+📦 Installing and Checking Libraries
+----------------------------
+# In Julia REPL or VS Code terminal:
+
+using Pkg                      # Load package manager
+Pkg.add("DataFrames")         # For working with tables
+Pkg.add("Plots")              # For plotting graphs
+Pkg.add("Flux")               # For machine learning models
+
+# To check if installed and load:
+using DataFrames, Plots, Flux
+
+----------------------------
+📂 Dataset Loading & Viewing
+----------------------------
+# Create and view a simple dataset
+using DataFrames
+
+df = DataFrame(Name = ["Ali", "Sara"], Age = [22, 24])
+println(df)                     # View data
+println(names(df))              # Show column names
+println(first(df, 1))           # Show first row
+
+----------------------------
+📊 Visualization (Plots.jl)
+----------------------------
+using Plots
+
+x = 1:10                        # Create x-values from 1 to 10
+y = x .^ 2                      # Square each value (element-wise)
+plot(x, y, title = "y = x^2", xlabel = "X", ylabel = "Y")
+savefig("plot.png")            # Save plot as image
+
+----------------------------
+🧮 Basic Syntax & Output
+----------------------------
+println("Hello, Julia!")       # Print a string
+
+x = 5                          # Define variable x
+const Y = 10                   # Define a constant Y
+x += 1                         # Increment x by 1
+println("x = $x, Y = $Y")      # Output values using string interpolation
+
+----------------------------
+➕ Arithmetic Operations
+----------------------------
+a = 10
+b = 3
+println("Sum: $(a + b)")       # Output: 13
+println("Product: $(a * b)")   # Output: 30
+
+----------------------------
+🔁 Conditionals & Loops
+----------------------------
+# Conditional check
+n = -5
+if n > 0
+    println("Positive")
+elseif n < 0
+    println("Negative")
+else
+    println("Zero")
+end
+
+# For loop (repeats 3 times)
+for i in 1:3
+    println("Iteration $i")
+end
+
+# While loop (runs until counter > 3)
+counter = 1
+while counter <= 3
+    println("Counter: $counter")
+    counter += 1
+end
+
+----------------------------
+📦 Functions & Dispatch
+----------------------------
+# Basic function
+function square(x)
+    return x^2                # Return square of x
+end
+println("Square of 5: $(square(5))")
+
+# Multiple dispatch: function behaves differently based on input types
+add(x::Int, y::Int) = x + y
+add(x::String, y::String) = string(x, y)
+
+println(add(3, 5))            # Uses integer version
+println(add("Hi ", "Julia")) # Uses string version
+
+----------------------------
+📊 Arrays, Tuples & Dictionaries
+----------------------------
+arr = [10, 20, 30]            # Create an array
+push!(arr, 40)                # Add element to array
+println(arr[1])               # Indexing starts from 1
+
+tup = (1, "apple", 3.14)      # Define a tuple
+println(tup[2])               # Access tuple element
+
+dict = Dict("name" => "Ali", "age" => 22)  # Dictionary (key-value pair)
+println(dict["age"])         # Access value by key
+
+----------------------------
+🏗️ Custom Structs (User-defined types)
+----------------------------
+struct Point
+    x::Float64               # Declare field with type
+    y::Float64
+end
+
+p = Point(2.0, 4.0)
+println("Point coordinates: ($(p.x), $(p.y))")
+
+----------------------------
+⚠️ Error Handling
+----------------------------
+try
+    println(10 / 0)          # Will cause divide error
+catch e
+    println("Error: $e")     # Catch and print the error
+end
+
+----------------------------
+📁 File I/O (Read & Write)
+----------------------------
+open("test.txt", "w") do file
+    write(file, "Julia is powerful!")
+end
+
+content = read("test.txt", String)
+println("File says: $content")
+
+----------------------------
+🧠 ML with Flux.jl (Mini Model)
+----------------------------
+using Flux
+
+model = Dense(1 => 1)                  # A linear model with 1 input & 1 output
+X = [1.0, 2.0, 3.0]                    # Input data
+Y = [2.0, 4.0, 6.0]                    # Target output (y = 2x)
+
+loss(x, y) = Flux.mse(model(x), y)     # Mean Squared Error loss function
+
+# Train model
+Flux.train!(loss, Flux.params(model), [(X[i], Y[i]) for i in 1:3], ADAM())
+
+println("Model weights: $(model.weight)")
+println("Model bias: $(model.bias)")
+
+----------------------------
+🎯 Viva Questions You Must Prepare
+----------------------------
+Sure Sohail! Here's a **simple, short, and easy explanation** for each viva question:
+
+---
+
+### 🎯 Viva Questions – Short Answers
+
+**1. What is multiple dispatch and how does Julia use it?**
+Julia can choose which function to run **based on the types of all input arguments**. It's called *multiple dispatch*. Example: `add(x::Int, y::Int)` vs `add(x::String, y::String)`.
+
+---
+
+**2. How do you declare and use a struct?**
+
+```julia
+struct Point
+  x::Float64
+  y::Float64
+end
+p = Point(2.0, 4.0)
+```
+
+Use structs to create your own data types.
+
+---
+
+**3. Difference between tuple, array, and dictionary?**
+
+* **Tuple**: Fixed size, immutable: `(1, "a")`
+* **Array**: Mutable list: `[1, 2, 3]`
+* **Dict**: Key-value pair: `Dict("name" => "Ali")`
+
+---
+
+**4. How does Julia handle errors?**
+Using `try-catch` block:
+
+```julia
+try
+  10 / 0
+catch e
+  println("Error: $e")
+end
+```
+
+---
+
+**5. Use of `.` in `.^`, `.*`?**
+The `.` makes it **element-wise**.
+Example: `x .^ 2` squares each element in array `x`.
+
+---
+
+**6. Why is Julia faster than Python?**
+Julia uses **JIT (Just-In-Time) compilation**, which compiles code to machine-level — making it very fast.
+
+---
+
+**7. How do you install and verify a package?**
+
+```julia
+using Pkg
+Pkg.add("Plots")
+using Plots  # Load the package
+```
+
+---
+
+**8. How to visualize data in Julia?**
+Use `Plots.jl`:
+
+```julia
+using Plots
+plot([1,2,3], [2,4,6])
+```
+
+---
+
+**9. What is a Flux model and how is it trained?**
+Flux is used for machine learning.
+
+```julia
+model = Dense(1 => 1)
+loss(x, y) = mse(model(x), y)
+train!(loss, params(model), data, ADAM())
+```
+
+---
+
+**10. How do you read and write files in Julia?**
+
+```julia
+open("file.txt", "w") do f
+  write(f, "Hello")
+end
+read("file.txt", String)
+```
+
+---
+
+**11. Mutable vs Immutable types?**
+
+* **Mutable**: Can change values (use `mutable struct`)
+* **Immutable**: Values cannot change (default `struct`)
+
+---
+
+**12. Output of 10/0 inside try-catch?**
+
+```julia
+try 10 / 0 catch e println(e) end
+```
+
+Output: `DivideError()` — but **no crash** due to catch.
+
+---
+
+**13. How to interpolate variables into strings?**
+Use `$` symbol:
+
+```julia
+name = "Ali"
+println("Hello, $name")
+```
+
+---
+
+**14. Can a struct hold functions inside?**
+Not directly. But you can define methods for the struct or use callable structs.
+
+---
+
+**15. What does `const` do in Julia?**
+Marks a variable as constant — **cannot be reassigned**.
+
+---
+
+**16. What is the first index of arrays in Julia?**
+Always **1**, not 0.
+
+---
+
+**17. What are macros and how are they different from functions?**
+
+* **Macros** start with `@`, like `@time`.
+* They work on **code itself**, not data.
+* Functions run at runtime, macros run at compile-time.
+
+
+END OF CHEAT SHEET
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### ✅ **Julia Final Lab Cheat Sheet (PFAI) – Text Version**
+
+**By: Sohail Aslam**
+
+---
+
+#### 📌 1. Setup
+
+* Download Julia: [https://julialang.org/downloads/](https://julialang.org/downloads/)
+* Add to PATH. Verify in terminal: `julia --version`
+* Download VS Code: [https://code.visualstudio.com](https://code.visualstudio.com)
+* Extensions: Julia Language Support, Code Runner
+
+---
+
+#### 📌 2. Basic Syntax
+
+```julia
+println("Hello, Julia!")  # Output a message
+x = 5
+const Y = 10
+x += 1
+println("x = $x, Y = $Y")
+```
+
+---
+
+#### 📌 3. Arithmetic
+
+```julia
+a = 10
+b = 3
+println("Sum: $(a + b)")
+println("Product: $(a * b)")
+```
+
+---
+
+#### 📌 4. Conditionals & Loops
+
+```julia
+n = -5
+if n > 0
+    println("Positive")
+elseif n < 0
+    println("Negative")
+else
+    println("Zero")
+end
+
+for i in 1:3
+    println("Iteration $i")
+end
+
+counter = 1
+while counter <= 3
+    println("Counter: $counter")
+    counter += 1
+end
+```
+
+---
+
+#### 📌 5. Functions & Multiple Dispatch
+
+```julia
+function square(x)
+    return x^2
+end
+println("Square of 5: $(square(5))")
+
+add(x::Int, y::Int) = x + y
+add(x::String, y::String) = string(x, y)
+println(add(3, 5))              # Output: 8
+println(add("Hello ", "Julia"))# Output: Hello Julia
+```
+
+---
+
+#### 📌 6. Data Structures
+
+```julia
+arr = [10, 20, 30]
+println(arr[1])
+push!(arr, 40)
+
+tup = (1, "apple", 3.14)
+dict = Dict("name" => "Alice", "age" => 30)
+println(dict["age"])
+```
+
+---
+
+#### 📌 7. Structs (Custom Types)
+
+```julia
+struct Point
+    x::Float64
+    y::Float64
+end
+
+p = Point(1.0, 2.0)
+println("Point = ($(p.x), $(p.y))")
+```
+
+---
+
+#### 📌 8. Error Handling
+
+```julia
+try
+    println(10 / 0)
+catch e
+    println("Error: $e")
+end
+```
+
+---
+
+#### 📌 9. File I/O
+
+```julia
+open("data.txt", "w") do file
+    write(file, "Julia is fast!")
+end
+
+content = read("data.txt", String)
+println("File content: $content")
+```
+
+---
+
+#### 📌 10. Libraries
+
+```julia
+# DataFrames
+using DataFrames
+df = DataFrame(Name=["Alice", "Bob"], Age=[25, 30])
+println(df)
+
+# Plots
+using Plots
+x = 1:10
+y = x .^ 2
+plot(x, y, title="y = x^2")
+savefig("plot.png")
+
+# Flux (ML)
+using Flux
+model = Dense(1 => 1)
+X = [1.0, 2.0, 3.0]
+Y = [2.0, 4.0, 6.0]
+loss(x, y) = Flux.mse(model(x), y)
+Flux.train!(loss, Flux.params(model), [(X[i], Y[i]) for i in 1:3], ADAM())
+println("Weights: $(model.weight), Bias: $(model.bias)")
+```
+
+---
+
+#### 📌 11. VS Code Debugging
+
+* Set breakpoints in editor
+* Press `F5` to run debugger
+* Use Julia REPL for testing
+
+---
+
+#### 📌 12. Viva Questions
+
+* What is multiple dispatch?
+* Difference between struct and class?
+* Why is Julia fast?
+* How does Flux train a model?
+* How to handle divide-by-zero error?
+* How do you save a plot?
+* What is `const` used for?
+* Difference between array and tuple?
+
+---
+
+#### 📌 13. Troubleshooting
+
+* Package issue: `Pkg.update()`
+* Plot not working: `Pkg.add("GR")`
+* First run slow = JIT compilation
+* Use `.^` for element-wise ops
+* Julia REPL helps test quick code
+
+---
+
